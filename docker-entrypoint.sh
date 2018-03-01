@@ -31,10 +31,9 @@ if [ "$socketMissing" = 1 -a "$1" = forego -a "$2" = start -a "$3" = '-r' ]; the
 fi
 
 openssl genrsa -des3 -passout pass:x -out /etc/nginx/certs/dpulp.pass.key 2048
-openssl rsa -passin pass:x -in dpulp.pass.key -out /etc/nginx/certs/dpulp.key
+openssl rsa -passin pass:x -in /etc/nginx/certs/dpulp.pass.key -out /etc/nginx/certs/dpulp.key
 rm /etc/nginx/certs/dpulp.pass.key
-openssl req -new -key /etc/nginx/certs/dpulp.key -out /etc/nginx/certs/dpulp.csr \
-    -subj "/C=US/ST=New York/L=New York/O=Digital Pulp/OU=Engineering/CN=*.dpulp"
+openssl req -new -key /etc/nginx/certs/dpulp.key -out /etc/nginx/certs/dpulp.csr -subj "/C=US/ST=New York/L=New York/O=Digital Pulp/OU=Engineering/CN=*.dpulp"
 openssl x509 -req -days 365 -in /etc/nginx/certs/dpulp.csr -signkey /etc/nginx/certs/dpulp.key -out /etc/nginx/certs/dpulp.crt
 
 exec "$@"
